@@ -7,7 +7,7 @@ set -e
 # Find the interface whose default route uses a private (10.x / 172.16-31 / 192.168) source
 IFACE=$(ip -o -4 route show to default | awk '$9 ~ /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.)/ {print $5; exit}')
 IFACE=${IFACE:-ens4}
-cat > /etc/netplan/99-ovh-docker-fix.yaml <<EOF
+sudo cat > /etc/netplan/99-ovh-docker-fix.yaml <<EOF
 network:
   version: 2
   ethernets:
@@ -16,9 +16,9 @@ network:
       dhcp4-overrides:
         use-routes: false
 EOF
-chmod 600 /etc/netplan/99-ovh-docker-fix.yaml
+sudo chmod 600 /etc/netplan/99-ovh-docker-fix.yaml
 echo 'network: {config: disabled}' > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
-netplan apply
+sudo netplan apply
 
 cd "$HOME/activetigger/docker"
 
