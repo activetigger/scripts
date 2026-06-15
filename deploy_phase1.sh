@@ -33,4 +33,4 @@ cd activetigger/docker
 git checkout production 2>/dev/null || git checkout -b production
 
 
-echo "Phase 1 done. Edit docker/docker.env now if needed, then reboot and run ./deploy_phase2.sh to run"
+echo "Phase 1 done. Edit docker/docker.env now if needed, then reboot (sudo reboot) and run ./deploy_phase2.sh to run"
