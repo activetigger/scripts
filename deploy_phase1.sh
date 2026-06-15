@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ---- Phase 1: run as: ./deploy_phase1.sh ----
-
 # Drivers
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y ubuntu-drivers-common
@@ -26,4 +24,13 @@ sudo apt install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 
-echo "Phase 1 done. Reboot now, then run ./deploy.sh --phase2"
+# Clone
+cd $HOME
+if [ ! -d activetigger ]; then
+  git clone https://github.com/activetigger/activetigger.git
+fi
+cd activetigger/docker
+git checkout production 2>/dev/null || git checkout -b production
+
+
+echo "Phase 1 done. Edit docker/docker.env now if needed, then reboot and run ./deploy_phase2.sh to run"
